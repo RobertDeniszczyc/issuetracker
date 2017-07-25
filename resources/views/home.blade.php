@@ -11,7 +11,7 @@
                     You are logged in!
                 </div>
 
-                <a class="btn btn-info">Add Project</a>
+                <a href='{{ route('projects.create') }}' class="btn btn-info">Add Project</a>
                 <a class="btn btn-success">Add Issue</a>
             </div>
         </div>
