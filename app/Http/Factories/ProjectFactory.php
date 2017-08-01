@@ -21,6 +21,9 @@ class ProjectFactory
         foreach ($projects as $project) {
             $projectObject = new Project;
 
+            if ($project->id) {
+                $projectObject->setId($project->id);
+            }
             if ($project->name) {
                 $projectObject->setName($project->name);
             }

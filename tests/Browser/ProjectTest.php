@@ -127,4 +127,39 @@ class ProjectTest extends DuskTestCase
                     ->assertPathIs('/home');
         });
     }
+
+    /**
+     * Test a project can be edited when providing valid inputs
+     *
+     * @return void
+     */
+    public function testCanEditProjectWhenProvidingValidInputs()
+    {   
+        $this->output->writeln('Running testCanEditProjectWhenProvidingValidInputs...');
+        
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $this->browse(function ($browser) use ($user) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/home')
+                    ->clickLink('Add Project')
+                    ->type('name', 'Test Project')
+                    ->type('shortcode', 'TEST')
+                    ->type('description', 'This is a test project')
+                    ->press('Create')
+                    ->assertPathIs('/home')
+                    ->clickLink('View all projects')
+                    ->clickLink('Edit Project')
+                    ->type('name', 'TEST EDIT')
+                    ->press('Submit edit')
+                    ->assertPathIs('/home');
+        });
+
+        $this->assertDatabaseHas('projects', [
+            'name' => 'TEST EDIT'
+        ]);
+    }
 }
