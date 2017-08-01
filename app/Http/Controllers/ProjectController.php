@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Project;
 use Illuminate\Http\Request;
+use App\Http\Factories\ProjectFactory as ProjectFactory;
+use Illuminate\Support\Facades\DB;
 
 class ProjectController extends Controller
 {
@@ -14,7 +16,15 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projectFactory = new ProjectFactory;
+        $projects = $projectFactory->generateProjectObject(DB::table('projects')->get());
+
+        $paginated = DB::table('projects')->paginate(2);
+
+        // var_dump(gettype($projects));
+        //var_dump($paginated);
+
+        return view('projects.index', ['projects' => $projects]);
     }
 
     /**
