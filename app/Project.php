@@ -10,6 +10,10 @@ class Project extends Model
         'user_id', 'name', 'shortcode', 'description'
     ];
 
+    public function setId($id) {
+        $this->id = $id;
+    }
+
     public function setName($name) {
     	$this->name = $name;
     }
@@ -20,6 +24,10 @@ class Project extends Model
 
     public function setDescription($description) {
     	$this->description = $description;
+    }
+
+    public function getId() {
+        return $this->id;
     }
 
     public function getName() {

@@ -14,6 +14,7 @@
                             <span>{{ $project->getDescription() }}</span><br>
                         @endif
                         <span>{{ $project->getShortcode() }}</span>
+                        <a class="btn btn-warning" href="{{ route('projects.edit', ['project_id' => $project->getId()]) }}">Edit Project</a>
                         <hr>
                     @endforeach
 
