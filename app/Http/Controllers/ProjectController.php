@@ -17,7 +17,12 @@ class ProjectController extends Controller
     public function index()
     {
         $projectFactory = new ProjectFactory;
-        $projects = $projectFactory->generateProjectObject(DB::table('projects')->get());
+
+        if(DB::table('projects')->count() > 0) {
+            $projects = $projectFactory->generateProjectObject(DB::table('projects')->get());
+        } else {
+            $projects = null;
+        }
 
         return view('projects.index', ['projects' => $projects]);
     }
@@ -104,6 +109,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project = Project::where('id', $project->getId())->first();
+        $project->delete();
+
+        return $this->index();
     }
 }
