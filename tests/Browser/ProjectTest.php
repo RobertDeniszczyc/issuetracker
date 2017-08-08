@@ -162,4 +162,36 @@ class ProjectTest extends DuskTestCase
             'name' => 'TEST EDIT'
         ]);
     }
+
+    /**
+     * Test a project can be destroyed
+     *
+     * @return void
+     */
+    public function testCanDestroyProject()
+    {   
+        $this->output->writeln('Running testCanDestroyProject...');
+        
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $this->browse(function ($browser) use ($user) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/home')
+                    ->clickLink('Add Project')
+                    ->type('name', 'Test Project')
+                    ->type('shortcode', 'TEST')
+                    ->type('description', 'This is a test project')
+                    ->press('Create')
+                    ->assertPathIs('/home')
+                    ->clickLink('View all projects')
+                    ->press('Destroy Project');
+        });
+
+        $this->assertDatabaseMissing('projects', [
+            'name' => 'TEST EDIT'
+        ]);
+    }
 }
