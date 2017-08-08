@@ -14,6 +14,10 @@ class Project extends Model
         $this->id = $id;
     }
 
+    public function setUserId($userId) {
+        $this->user_id = $userId;
+    }
+
     public function setName($name) {
     	$this->name = $name;
     }
@@ -30,6 +34,10 @@ class Project extends Model
         return $this->id;
     }
 
+    public function getUserId() {
+        return $this->user_id;
+    }
+
     public function getName() {
     	return $this->name;
     }
@@ -40,6 +48,11 @@ class Project extends Model
 
     public function getDescription() {
     	return $this->description;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 
 }
