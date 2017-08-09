@@ -10,13 +10,23 @@
                 <div class="panel-body">
                     You are logged in!
                 </div>
+            </div>
 
+            <div class="panel panel-default">
+                <div class="panel-heading">Issues</div>
                 <a class="btn btn-success">Add Issue</a>
-                <hr>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Projects</div>
                 <a href='{{ route('projects.index') }}' class="btn btn-info">View all projects</a>
                 <a href='{{ route('projects.create') }}' class="btn btn-success">Add Project</a>
-                <hr>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Issue Management</div>
                 <a href='{{ route('issuestatus.create') }}' class="btn btn-success">Create Issue Status</a>
+                <a href='{{ route('issuetype.create') }}' class="btn btn-success">Create Issue Type</a>
             </div>
         </div>
     </div>
