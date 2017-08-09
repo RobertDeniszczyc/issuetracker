@@ -17,12 +17,12 @@ class ProjectController extends Controller
     public function index()
     {
         $projectFactory = new ProjectFactory;
-        $projects = $projectFactory->generateProjectObject(DB::table('projects')->get());
 
-        $paginated = DB::table('projects')->paginate(2);
-
-        // var_dump(gettype($projects));
-        //var_dump($paginated);
+        if(DB::table('projects')->count() > 0) {
+            $projects = $projectFactory->generateProjectObject(DB::table('projects')->get());
+        } else {
+            $projects = null;
+        }
 
         return view('projects.index', ['projects' => $projects]);
     }
@@ -74,7 +74,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        $project = Project::where('id', $project->getId())->first();
+        return view('projects.edit', ['project' => $project]);
     }
 
     /**
@@ -86,7 +87,18 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'shortcode' => 'required|max:4',
+            'description' => 'nullable'
+        ]);
+
+        $project->setName($request->name);
+        $project->setShortcode($request->shortcode);
+        $project->setDescription($request->description);
+        $project->save();
+
+        return redirect()->action('HomeController@index');
     }
 
     /**
@@ -97,6 +109,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project = Project::where('id', $project->getId())->first();
+        $project->delete();
+
+        return $this->index();
     }
 }
