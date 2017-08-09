@@ -34,4 +34,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Project');
     }
+
+    /**
+     * Get the issues associated with the user
+     */
+    public function issues()
+    {
+        return $this->hasMany('App\Issue');
+    }
 }
