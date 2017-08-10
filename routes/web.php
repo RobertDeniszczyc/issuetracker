@@ -21,3 +21,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('projects', 'ProjectController');
 Route::resource('issuestatus', 'IssueStatusController');
 Route::resource('issuetype', 'IssueTypeController');
+Route::resource('issues', 'IssueController');

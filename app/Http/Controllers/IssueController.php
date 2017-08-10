@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use App\Issue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Factories\ProjectFactory as ProjectFactory;
+use App\Http\Helpers\ProjectHelper as ProjectHelper;
+use App\Http\Helpers\IssueTypeHelper as IssueTypeHelper;
+use App\Http\Helpers\IssueStatusHelper as IssueStatusHelper;
 
 class IssueController extends Controller
 {
+
+    function __construct() {
+        $this->projectFactory = new ProjectFactory;
+        $this->projectHelper = new ProjectHelper;
+        $this->issueTypeHelper = new IssueTypeHelper;
+        $this->issueStatusHelper = new IssueStatusHelper;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +37,13 @@ class IssueController extends Controller
      */
     public function create()
     {
-        return view('issues.create');
+        $projects = $this->projectHelper->loadProjectsCollection();
+        $issueStatuses = $this->issueStatusHelper->loadIssueStatusesCollection();
+        $issueTypes = $this->issueTypeHelper->loadIssueTypesCollection();
+
+        return view('issues.create', ['projects' => $projects,
+                                      'issueStatuses' => $issueStatuses,
+                                      'issueTypes' => $issueTypes]);
     }
 
     /**

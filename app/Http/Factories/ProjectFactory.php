@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use App\Http\Helpers\ProjectHelper as ProjectHelper;
 
 class ProjectFactory
 {
+    function __construct() {
+        $this->projectHelper = new ProjectHelper;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -21,23 +26,9 @@ class ProjectFactory
 
         if ($projects) {
             foreach ($projects as $project) {
-                $projectObject = new Project;
 
-                if ($project->id) {
-                    $projectObject->setId($project->id);
-                }
-                if ($project->user_id) {
-                    $projectObject->setUserId($project->user_id);
-                }
-                if ($project->name) {
-                    $projectObject->setName($project->name);
-                }
-                if ($project->description) {
-                    $projectObject->setDescription($project->description);
-                }
-                if ($project->shortcode) {
-                    $projectObject->setShortcode($project->shortcode);
-                }
+                $projectObject = $this->projectHelper->setProjectMethods($project);
+                
                 $projectsArray[] = $projectObject;
             }
 

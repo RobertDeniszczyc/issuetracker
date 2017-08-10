@@ -10,12 +10,20 @@ class IssueType extends Model
         'user_id', 'name'
     ];
 
+    public function setId($id) {
+        $this->id = $id;
+    }
+
     public function setUserId($userId) {
         $this->user_id = $userId;
     }
 
     public function setName($name) {
         $this->name = $name;
+    }
+
+    public function getId() {
+        return $this->id;
     }
 
     public function getUserId() {

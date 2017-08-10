@@ -63,7 +63,7 @@
 
                             <div class="col-md-6">
                                 <select id="status_id" name="status_id">
-                                  @foreach ($statuses as $status)
+                                  @foreach ($issueStatuses as $status)
                                     <option value="{{ $status->getId() }}">{{ $status->getName() }}</option>
                                   @endforeach
                                 </select>
