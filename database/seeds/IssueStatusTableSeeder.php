@@ -14,15 +14,17 @@ class IssueStatusTableSeeder extends Seeder
         $statusTitleArray = ['Open', 'In progress', 'Closed'];
 
         foreach ($statusTitleArray as $statusTitle) {
-            $this->insertIssueStatus($statusTitle);
+            $this->storeIssueStatus($statusTitle);
         }
     }
 
-    private function insertIssueStatus($statusTitle) 
+    private function storeIssueStatus($statusTitle) 
     {
          DB::table('issue_statuses')->insert([
             'user_id' => 1,
-            'name' => $statusTitle
+            'name' => $statusTitle,
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
         ]);
     }
 }
