@@ -20,7 +20,7 @@ class IssueTest extends DuskTestCase
 
 
     /**
-     * Test a project can be created when providing valid inputs
+     * Test an issue can be created when providing valid inputs
      *
      * @return void
      */
@@ -32,8 +32,45 @@ class IssueTest extends DuskTestCase
             'email' => 'user@test.com',
         ]);
 
+        $this->browse(function ($browser) use ($user) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/home')
+                    ->clickLink('Add Issue')
+                    ->type('title', 'Test issue')
+                    ->type('description', 'This is a test issue')
+                    ->press('Create Issue')
+                    ->assertPathIs('/home');
+        });
 
 
+        $this->assertDatabaseHas('issues', [
+            'title' => 'Test issue'
+        ]);
+    }
 
+    /**
+     * Test an issue cannot be created when providing empty required inputs
+     *
+     * @return void
+     */
+    public function testCannotCreateIssueWhenProvidingEmptyRequiredInputs()
+    {   
+        $this->output->writeln('Running testCannotCreateIssueWhenProvidingEmptyRequiredInputs...');
+        
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $this->browse(function ($browser) use ($user) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/home')
+                    ->clickLink('Add Issue')
+                    ->type('name', '')
+                    ->type('description', 'This is a test issue')
+                    ->press('Create Issue')
+                    ->assertPathIs('/create/issue');
+        });
     }
 }
