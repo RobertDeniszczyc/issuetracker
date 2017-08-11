@@ -3,6 +3,9 @@
 namespace Tests\Browser;
 
 use App\User;
+use App\Project;
+use App\IssueType;
+use App\IssueStatus;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Chrome;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -32,7 +35,20 @@ class IssueTest extends DuskTestCase
             'email' => 'user@test.com',
         ]);
 
-        $this->browse(function ($browser) use ($user) {
+        $project = factory(Project::class)->create([
+            'name' => 'Test Project',
+            'shortcode' => 'TEST'
+        ]);
+
+        $issueStatus = factory(IssueStatus::class)->create([
+            'name' => 'Open'
+        ]);
+
+        $issueType = factory(IssueType::class)->create([
+            'name' => 'Story'
+        ]);
+
+        $this->browse(function ($browser) use ($user, $project) {
 
             $browser->loginAs(User::find(1))
                     ->visit('/home')
@@ -67,7 +83,7 @@ class IssueTest extends DuskTestCase
             $browser->loginAs(User::find(1))
                     ->visit('/home')
                     ->clickLink('Add Issue')
-                    ->type('name', '')
+                    ->type('title', '')
                     ->type('description', 'This is a test issue')
                     ->press('Create Issue')
                     ->assertPathIs('/create/issue');
