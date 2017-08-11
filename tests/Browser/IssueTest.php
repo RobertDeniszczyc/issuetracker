@@ -86,7 +86,7 @@ class IssueTest extends DuskTestCase
                     ->type('title', '')
                     ->type('description', 'This is a test issue')
                     ->press('Create Issue')
-                    ->assertPathIs('/create/issue');
+                    ->assertPathIs('/issues/create');
         });
     }
 }
