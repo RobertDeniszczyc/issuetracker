@@ -10,6 +10,10 @@ class Issue extends Model
         'user_id', 'project_id', 'title', 'description', 'status_id', 'issue_type_id'
     ];
 
+    public function setId($id) {
+        $this->id = $id;
+    }
+
     public function setUserId($userId) {
         $this->user_id = $userId;
     }
@@ -34,6 +38,14 @@ class Issue extends Model
         $this->issue_type_id = $issueTypeId;
     }
 
+    public function setUser($user) {
+        $this->user = $user;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
     public function getUserId() {
         return $this->user_id;
     }
@@ -47,7 +59,7 @@ class Issue extends Model
     }
 
     public function getDescription() {
-        return $this->user_id;
+        return $this->description;
     }
 
     public function getStatusId() {
@@ -56,6 +68,10 @@ class Issue extends Model
 
     public function getIssueTypeId() {
         return $this->issue_type_id;
+    }
+
+    public function getUser() {
+        return $this->user;
     }
 
     public function user()

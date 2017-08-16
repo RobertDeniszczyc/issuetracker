@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Issue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Factories\IssueFactory as IssueFactory;
+use App\Http\Helpers\IssueHelper as IssueHelper;
 use App\Http\Factories\ProjectFactory as ProjectFactory;
 use App\Http\Helpers\ProjectHelper as ProjectHelper;
 use App\Http\Helpers\IssueTypeHelper as IssueTypeHelper;
@@ -14,6 +16,8 @@ class IssueController extends Controller
 {
 
     function __construct() {
+        $this->issueFactory = new IssueFactory;
+        $this->issueHelper = new IssueFactory;
         $this->projectFactory = new ProjectFactory;
         $this->projectHelper = new ProjectHelper;
         $this->issueTypeHelper = new IssueTypeHelper;
@@ -27,7 +31,15 @@ class IssueController extends Controller
      */
     public function index()
     {
+        $IssueFactory = new IssueFactory;
 
+        if(DB::table('issues')->count() > 0) {
+            $issues = $this->issueFactory->generatePaginatedIssues(DB::table('issues')->get(), 10);
+        } else {
+            $issues = null;
+        }
+
+        return view('issues.index', ['issues' => $issues]);
     }
 
     /**
