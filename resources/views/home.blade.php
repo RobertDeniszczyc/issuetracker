@@ -14,6 +14,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-heading">Issues</div>
+                <a href='{{ route('issues.index') }}' class="btn btn-info">View all Issues</a>
                 <a href='{{ route('issues.create') }}' class="btn btn-info">Add Issue</a>
             </div>
 
