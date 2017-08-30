@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\IssueStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Factories\IssueStatusFactory as IssueStatusFactory;
 
 class IssueStatusController extends Controller
 {
@@ -15,7 +16,15 @@ class IssueStatusController extends Controller
      */
     public function index()
     {
+        $IssueStatusFactory = new IssueStatusFactory;
 
+        if(DB::table('issue_statuses')->count() > 0) {
+            $issueStatuses = $IssueStatusFactory->generatePaginatedIssueStatuses(DB::table('issue_statuses')->get(), 10);
+        } else {
+            $issueStatuses = null;
+        }
+
+        return view('issuestatus.index', ['issueStatuses' => $issueStatuses]);
     }
 
     /**
