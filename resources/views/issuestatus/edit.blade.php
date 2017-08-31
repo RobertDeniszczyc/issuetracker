@@ -5,18 +5,18 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Create an Issue Status</div>
+                <div class="panel-heading">Edit an Issue Status</div>
                 <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('issue-status.store') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('issue-status.update', $issueStatus->getId()) }}">
                         {{ csrf_field() }}
-
+                        {{ method_field('PATCH') }}
                         <input id="user_id" type="hidden" name="user_id" value="{{ Auth::user()->id }}" required>
 
                         <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                             <label for="name" class="col-md-4 control-label">Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ $issueStatus->getName() }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Create
+                                    Submit
                                 </button>
                             </div>
                         </div>

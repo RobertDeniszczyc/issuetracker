@@ -72,7 +72,8 @@ class IssueStatusController extends Controller
      */
     public function edit(IssueStatus $issueStatus)
     {
-
+        $issueStatus = IssueStatus::where('id', $issueStatus->getId())->first();
+        return view('issuestatus.edit', ['issueStatus' => $issueStatus]);
     }
 
     /**
@@ -84,7 +85,14 @@ class IssueStatusController extends Controller
      */
     public function update(Request $request, IssueStatus $issueStatus)
     {
+        $this->validate($request, [
+                    'name' => 'required|max:255'
+                ]);
 
+        $issueStatus->setName($request->name);
+        $issueStatus->save();
+        
+        return redirect()->action('HomeController@index');
     }
 
     /**
