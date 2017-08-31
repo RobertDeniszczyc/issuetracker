@@ -71,4 +71,32 @@ class IssueStatusTest extends DuskTestCase
                     ->assertPathIs('/issuestatus/create');
         });
     }
+
+    /**
+     * Test an issue status can be edited when providing valid inputs
+     *
+     * @return void
+     */
+    public function testCanEditIssueStatusWhenProvidingValidInputs()
+    {   
+        $this->output->writeln('Running testCanEditIssueStatusWhenProvidingValidInputs...');
+        
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $this->browse(function ($browser) use ($user) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/issue-status')
+                    ->clickLink('Edit Issue Status')
+                    ->type('name', 'Not started')
+                    ->press('Submit')
+                    ->assertPathIs('/home');
+        });
+
+        $this->assertDatabaseHas('issue_statuses', [
+            'name' => 'Not started'
+        ]);
+    }
 }
