@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,5 +13,27 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         factory(App\User::class, 50)->create();
+
+        $userArray = [
+                            [
+                                'id' => 51,
+                                'name' => 'Rob Testuser',
+                                'email' => 'rob@test.com',
+                                'password' => Hash::make('password'),
+                                'created_at' => date("Y-m-d H:i:s"),
+                                'updated_at' => date("Y-m-d H:i:s")
+                            ]
+                        ];
+
+        foreach ($userArray as $user) {
+            $this->storeUser($user);
+        }
+    }
+
+    private function storeUser($user)
+    {
+         DB::table('users')->insert([
+            $user
+        ]);
     }
 }
