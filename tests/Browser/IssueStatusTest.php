@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use App\User;
+use App\IssueStatus;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Chrome;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -68,7 +69,7 @@ class IssueStatusTest extends DuskTestCase
                     ->clickLink('Create Issue Status')
                     ->type('name', '')
                     ->press('Create')
-                    ->assertPathIs('/issuestatus/create');
+                    ->assertPathIs('/issue-status/create');
         });
     }
 
@@ -85,6 +86,10 @@ class IssueStatusTest extends DuskTestCase
             'email' => 'user@test.com',
         ]);
 
+        $user = factory(IssueStatus::class)->create([
+            'name' => 'Test Status',
+        ]);
+
         $this->browse(function ($browser) use ($user) {
 
             $browser->loginAs(User::find(1))
@@ -97,6 +102,32 @@ class IssueStatusTest extends DuskTestCase
 
         $this->assertDatabaseHas('issue_statuses', [
             'name' => 'Not started'
+        ]);
+    }
+
+    public function testCanDestroyIssueStatus()
+    {
+        $this->output->writeln('Running testCanDestroyIssueStatus...');
+
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $user = factory(IssueStatus::class)->create([
+            'name' => 'Test Status',
+        ]);
+
+
+        $this->browse(function ($browser) use ($user) {
+
+            $browser->loginAs(User::where('email', 'user@test.com')->first())
+                    ->visit('/issue-status')
+                    ->press('Delete Issue Status')
+                    ->assertPathIs('/issue-status');
+        });
+
+        $this->assertDatabaseMissing('issue_statuses', [
+            'name' => 'Test Status'
         ]);
     }
 }

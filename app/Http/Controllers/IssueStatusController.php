@@ -106,6 +106,6 @@ class IssueStatusController extends Controller
         $issueStatus = IssueStatus::where('id', $issueStatus->getId())->first();
         $issueStatus->delete();
 
-        return $this->index();
+        return redirect()->action('IssueStatusController@index');
     }
 }
