@@ -16,6 +16,16 @@
                             <span>{{ $issueStatus->getId() }}</span>
                             <span>{{ $issueStatus->getName() }}</span>
                             <a class="btn btn-warning" href="{{ route('issue-status.edit', ['n' => $issueStatus->getId()]) }}">Edit Issue Status</a>
+
+                            @if ($issueStatus->getUserId() == Auth::user()->id)
+                                <form action="{{ route('issue-status.destroy', ['project_id' => $issueStatus->getId()]) }}" method="POST">
+                                    {{ method_field('DELETE') }}
+                                    {{ csrf_field() }}
+                                    <button class="btn btn-danger">Delete Issue Status</button>
+                                </form>
+                            @else
+                                <a class="btn btn-danger" disabled>Delete Issue Status</a>
+                            @endif
                             <hr><br>
                         @endforeach
 
