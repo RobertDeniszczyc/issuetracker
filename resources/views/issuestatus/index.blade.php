@@ -24,7 +24,7 @@
                                     <button class="btn btn-danger">Delete Issue Status</button>
                                 </form>
                             @else
-                                <a class="btn btn-danger" disabled>Delete Issue Status</a>
+                                <p><em>Issue Status can only be deleted by its creator</em></p>
                             @endif
                             <hr><br>
                         @endforeach
