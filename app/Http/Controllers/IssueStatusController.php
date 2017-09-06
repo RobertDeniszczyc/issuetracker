@@ -103,6 +103,9 @@ class IssueStatusController extends Controller
      */
     public function destroy(IssueStatus $issueStatus)
     {
+        $issueStatus = IssueStatus::where('id', $issueStatus->getId())->first();
+        $issueStatus->delete();
 
+        return $this->index();
     }
 }

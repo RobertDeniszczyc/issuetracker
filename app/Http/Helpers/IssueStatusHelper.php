@@ -50,6 +50,9 @@ class IssueStatusHelper
         if ($issueStatus->id) {
             $issueStatusObject->setId($issueStatus->id);
         }
+        if ($issueStatus->user_id) {
+            $issueStatusObject->setUserId($issueStatus->user_id);
+        }
         if ($issueStatus->name) {
             $issueStatusObject->setName($issueStatus->name);
         }
