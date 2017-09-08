@@ -6,6 +6,7 @@ use App\User;
 use App\Project;
 use App\IssueType;
 use App\IssueStatus;
+use App\Issue;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Chrome;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -88,5 +89,53 @@ class IssueTest extends DuskTestCase
                     ->press('Create Issue')
                     ->assertPathIs('/issues/create');
         });
+    }
+
+
+    /**
+     * Test an issue can be edited when providing valid inputs
+     *
+     * @return void
+     */
+    public function testCanEditIssueWhenProvidingValidInputs()
+    {   
+        $this->output->writeln('Running testCanEditIssueWhenProvidingValidInputs...');
+        
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $project = factory(Project::class)->create([
+            'name' => 'Test Project',
+            'shortcode' => 'TEST'
+        ]);
+
+        $issueStatus = factory(IssueStatus::class)->create([
+            'name' => 'Open'
+        ]);
+
+        $issueType = factory(IssueType::class)->create([
+            'name' => 'Story'
+        ]);
+
+        $issue = factory(Issue::class)->create([
+            'user_id' => '1'
+        ]);
+
+        $this->browse(function ($browser) use ($user, $project) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/issues')
+                    ->clickLink('Edit Issue')
+                    ->type('title', 'Test edited issue')
+                    ->type('description', 'This is an edited test issue')
+                    ->press('Submit')
+                    ->assertPathIs('/issues');
+        });
+
+
+        $this->assertDatabaseHas('issues', [
+            'title' => 'Test edited issue'
+        ]);
     }
 }
