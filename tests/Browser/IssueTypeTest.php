@@ -40,7 +40,7 @@ class IssueTypeTest extends DuskTestCase
                     ->clickLink('Create Issue Type')
                     ->type('name', 'Story')
                     ->press('Create')
-                    ->assertPathIs('/home');
+                    ->assertPathIs('/issue-type');
         });
 
 
@@ -69,7 +69,7 @@ class IssueTypeTest extends DuskTestCase
                     ->clickLink('Create Issue Type')
                     ->type('name', '')
                     ->press('Create')
-                    ->assertPathIs('/issuetype/create');
+                    ->assertPathIs('/issue-type/create');
         });
     }
 
