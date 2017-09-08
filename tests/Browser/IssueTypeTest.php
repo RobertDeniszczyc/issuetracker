@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use App\User;
+use App\IssueType;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Chrome;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -70,5 +71,37 @@ class IssueTypeTest extends DuskTestCase
                     ->press('Create')
                     ->assertPathIs('/issuetype/create');
         });
+    }
+
+    /**
+     * Test an issue type can be edited when providing valid inputs
+     *
+     * @return void
+     */
+    public function testCanEditIssueTypeWhenProvidingValidInputs()
+    {   
+        $this->output->writeln('Running testCanEditIssueTypeWhenProvidingValidInputs...');
+        
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $user = factory(IssueType::class)->create([
+            'name' => 'Test Type',
+        ]);
+
+        $this->browse(function ($browser) use ($user) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/issue-type')
+                    ->clickLink('Edit Issue Type')
+                    ->type('name', 'Test')
+                    ->press('Submit')
+                    ->assertPathIs('/issue-type');
+        });
+
+        $this->assertDatabaseHas('issue_types', [
+            'name' => 'Test'
+        ]);
     }
 }

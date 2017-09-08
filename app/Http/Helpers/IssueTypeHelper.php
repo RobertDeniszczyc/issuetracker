@@ -50,6 +50,9 @@ class IssueTypeHelper
         if ($issueType->id) {
             $issueTypeObject->setId($issueType->id);
         }
+        if ($issueType->user_id) {
+            $issueTypeObject->setUserId($issueType->user_id);
+        }
         if ($issueType->name) {
             $issueTypeObject->setName($issueType->name);
         }
