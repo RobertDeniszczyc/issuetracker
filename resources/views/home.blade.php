@@ -28,7 +28,8 @@
                 <div class="panel-heading">Issue Management</div>
                 <a href='{{ route('issue-status.create') }}' class="btn btn-info">Create Issue Status</a>
                 <a href='{{ route('issue-status.index') }}' class="btn btn-info">View Issue Statuses</a>
-                <a href='{{ route('issuetype.create') }}' class="btn btn-info">Create Issue Type</a>
+                <a href='{{ route('issue-type.create') }}' class="btn btn-info">Create Issue Type</a>
+                <a href='{{ route('issue-type.index') }}' class="btn btn-info">View Issue Types</a>
             </div>
         </div>
     </div>

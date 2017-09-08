@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\IssueType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Factories\IssueTypeFactory as IssueTypeFactory;
 
 class IssueTypeController extends Controller
 {
@@ -15,7 +16,15 @@ class IssueTypeController extends Controller
      */
     public function index()
     {
+        $IssueTypeFactory = new IssueTypeFactory;
 
+        if(DB::table('issue_types')->count() > 0) {
+            $issueTypes = $IssueTypeFactory->generatePaginatedIssueTypes(DB::table('issue_types')->get(), 10);
+        } else {
+            $issueTypes = null;
+        }
+
+        return view('issuetype.index', ['issueTypes' => $issueTypes]);
     }
 
     /**
@@ -41,7 +50,7 @@ class IssueTypeController extends Controller
         ]);
 
         IssueType::create($request->all());
-        return redirect()->action('HomeController@index');
+        return redirect()->action('IssueTypeController@index');
     }
 
     /**
@@ -63,7 +72,8 @@ class IssueTypeController extends Controller
      */
     public function edit(IssueType $issueType)
     {
-
+        $issueType = IssueType::where('id', $issueType->getId())->first();
+        return view('issuetype.edit', ['issueType' => $issueType]);
     }
 
     /**
@@ -75,7 +85,14 @@ class IssueTypeController extends Controller
      */
     public function update(Request $request, IssueType $issueType)
     {
+        $this->validate($request, [
+                    'name' => 'required|max:255'
+                ]);
 
+        $issueType->setName($request->name);
+        $issueType->save();
+        
+        return redirect()->action('IssueTypeController@index');
     }
 
     /**
@@ -86,6 +103,9 @@ class IssueTypeController extends Controller
      */
     public function destroy(IssueType $issueType)
     {
+        $issueType = IssueType::where('id', $issueType->getId())->first();
+        $issueType->delete();
 
+        return redirect()->action('IssueTypeController@index');
     }
 }
