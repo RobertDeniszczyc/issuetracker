@@ -105,6 +105,11 @@ class IssueStatusTest extends DuskTestCase
         ]);
     }
 
+    /**
+     * Test an issue status can be destroyed
+     *
+     * @return void
+     */
     public function testCanDestroyIssueStatus()
     {
         $this->output->writeln('Running testCanDestroyIssueStatus...');

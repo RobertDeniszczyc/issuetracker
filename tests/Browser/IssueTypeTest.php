@@ -104,4 +104,34 @@ class IssueTypeTest extends DuskTestCase
             'name' => 'Test'
         ]);
     }
+
+    /**
+     * Test an issue type can be destroyed
+     *
+     * @return void
+     */
+    public function testCanDestroyIssueType()
+    {
+        $this->output->writeln('Running testCanDestroyIssueType...');
+
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $user = factory(IssueType::class)->create([
+            'name' => 'Test Type',
+        ]);
+
+        $this->browse(function ($browser) use ($user) {
+
+            $browser->loginAs(User::where('email', 'user@test.com')->first())
+                    ->visit('/issue-type')
+                    ->press('Delete Issue Type')
+                    ->assertPathIs('/issue-type');
+        });
+
+        $this->assertDatabaseMissing('issue_types', [
+            'name' => 'Test Type'
+        ]);
+    }
 }
