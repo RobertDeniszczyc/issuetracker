@@ -138,4 +138,49 @@ class IssueTest extends DuskTestCase
             'title' => 'Test edited issue'
         ]);
     }
+
+    /**
+     * Test an issue can be destroyed
+     *
+     * @return void
+     */
+    public function testCanDestroyTestIssue()
+    {   
+        $this->output->writeln('Running testCanDestroyIssue...');
+        
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $project = factory(Project::class)->create([
+            'name' => 'Test Project',
+            'shortcode' => 'TEST'
+        ]);
+
+        $issueStatus = factory(IssueStatus::class)->create([
+            'name' => 'Open'
+        ]);
+
+        $issueType = factory(IssueType::class)->create([
+            'name' => 'Story'
+        ]);
+
+        $issue = factory(Issue::class)->create([
+            'user_id' => '1',
+            'title' => 'Test issue'
+        ]);
+
+        $this->browse(function ($browser) use ($user, $project) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/issues')
+                    ->press('Destroy Issue')
+                    ->assertPathIs('/issues');
+        });
+
+
+        $this->assertDatabaseMissing('issues', [
+            'title' => 'Test issue'
+        ]);
+    }
 }

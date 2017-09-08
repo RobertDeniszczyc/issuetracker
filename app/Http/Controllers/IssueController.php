@@ -143,6 +143,9 @@ class IssueController extends Controller
      */
     public function destroy(Issue $issue)
     {
+        $issue = Issue::where('id', $issue->getId())->first();
+        $issue->delete();
 
+        return redirect()->action('IssueController@index');
     }
 }
