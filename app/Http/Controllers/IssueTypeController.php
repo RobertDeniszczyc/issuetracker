@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\IssueType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Factories\IssueTypeFactory as IssueTypeFactory;
 
 class IssueTypeController extends Controller
 {
@@ -15,7 +16,15 @@ class IssueTypeController extends Controller
      */
     public function index()
     {
+        $IssueTypeFactory = new IssueTypeFactory;
 
+        if(DB::table('issue_types')->count() > 0) {
+            $issueTypes = $IssueTypeFactory->generatePaginatedIssueTypes(DB::table('issue_types')->get(), 10);
+        } else {
+            $issueTypes = null;
+        }
+
+        return view('issuetype.index', ['issueTypes' => $issueTypes]);
     }
 
     /**

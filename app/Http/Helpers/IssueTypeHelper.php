@@ -23,7 +23,7 @@ class IssueTypeHelper
         if ($issueTypes) {
             foreach ($issueTypes as $issueType) {
 
-                $issueTypeObject = $this->setIssueStatusMethods($issueType);
+                $issueTypeObject = $this->setIssueTypeMethods($issueType);
                 
                 $issueTypeArray[] = $issueTypeObject;
             }
@@ -43,7 +43,7 @@ class IssueTypeHelper
      *
      * @return \Illuminate\Http\Response
      */
-    public function setIssueStatusMethods($issueType)
+    public function setIssueTypeMethods($issueType)
     {
         $issueTypeObject = new IssueType;
 
