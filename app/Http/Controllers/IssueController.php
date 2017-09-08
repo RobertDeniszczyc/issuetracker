@@ -97,7 +97,15 @@ class IssueController extends Controller
      */
     public function edit(Issue $issue)
     {
+        $projects = $this->projectHelper->loadProjectsCollection();
+        $issueStatuses = $this->issueStatusHelper->loadIssueStatusesCollection();
+        $issueTypes = $this->issueTypeHelper->loadIssueTypesCollection();
 
+        $issue = Issue::where('id', $issue->getId())->first();
+        return view('issues.edit', ['issue' => $issue,
+                                    'projects' => $projects,
+                                    'issueStatuses' => $issueStatuses,
+                                    'issueTypes' => $issueTypes]);
     }
 
     /**
@@ -109,7 +117,22 @@ class IssueController extends Controller
      */
     public function update(Request $request, Issue $issue)
     {
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'description' => 'nullable',
+            'status_id' => 'required',
+            'issue_type_id' => 'required',
+            'project_id' => 'required'
+        ]);
 
+        $issue->setTitle($request->title);
+        $issue->setDescription($request->description);
+        $issue->setStatusId($request->status_id);
+        $issue->setIssueTypeId($request->issue_type_id);
+        $issue->setProjectId($request->project_id);
+        $issue->save();
+
+        return redirect()->action('IssueController@index');
     }
 
     /**
