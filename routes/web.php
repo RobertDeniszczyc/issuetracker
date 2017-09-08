@@ -20,5 +20,5 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('projects', 'ProjectController');
 Route::resource('issue-status', 'IssueStatusController');
-Route::resource('issuetype', 'IssueTypeController');
+Route::resource('issue-type', 'IssueTypeController');
 Route::resource('issues', 'IssueController');

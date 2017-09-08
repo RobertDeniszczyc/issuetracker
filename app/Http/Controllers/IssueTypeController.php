@@ -50,7 +50,7 @@ class IssueTypeController extends Controller
         ]);
 
         IssueType::create($request->all());
-        return redirect()->action('HomeController@index');
+        return redirect()->action('IssueTypeController@index');
     }
 
     /**
@@ -72,7 +72,8 @@ class IssueTypeController extends Controller
      */
     public function edit(IssueType $issueType)
     {
-
+        $issueType = IssueType::where('id', $issueType->getId())->first();
+        return view('issuetype.edit', ['issueType' => $issueType]);
     }
 
     /**
@@ -84,7 +85,14 @@ class IssueTypeController extends Controller
      */
     public function update(Request $request, IssueType $issueType)
     {
+        $this->validate($request, [
+                    'name' => 'required|max:255'
+                ]);
 
+        $issueType->setName($request->name);
+        $issueType->save();
+        
+        return redirect()->action('IssueTypeController@index');
     }
 
     /**
