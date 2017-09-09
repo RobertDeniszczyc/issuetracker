@@ -22,6 +22,8 @@ class IssueController extends Controller
         $this->projectHelper = new ProjectHelper;
         $this->issueTypeHelper = new IssueTypeHelper;
         $this->issueStatusHelper = new IssueStatusHelper;
+
+        $this->middleware('auth');
     }
 
     /**

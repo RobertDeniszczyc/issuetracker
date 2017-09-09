@@ -9,6 +9,11 @@ use App\Http\Factories\IssueStatusFactory as IssueStatusFactory;
 
 class IssueStatusController extends Controller
 {
+
+    function __construct() {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
