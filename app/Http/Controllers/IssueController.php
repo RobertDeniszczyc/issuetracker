@@ -88,7 +88,8 @@ class IssueController extends Controller
      */
     public function show(Issue $issue)
     {
-        //
+        $issue = Issue::where('id', $issue->getId())->first();
+        return view('issues.show', ['issue' => $issue]);
     }
 
     /**
