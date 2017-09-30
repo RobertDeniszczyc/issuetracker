@@ -183,4 +183,43 @@ class IssueTest extends DuskTestCase
             'title' => 'Test issue'
         ]);
     }
+
+    /**
+     * Test an issue can be viewed
+     *
+     * @return void
+     */
+    public function testCanViewSingleIssue()
+    {   
+        $this->output->writeln('Running testCanViewSingleIssue...');
+        
+        $user = factory(User::class)->create([
+            'email' => 'user@test.com',
+        ]);
+
+        $project = factory(Project::class)->create([
+            'name' => 'Test Project',
+            'shortcode' => 'TEST'
+        ]);
+
+        $issueStatus = factory(IssueStatus::class)->create([
+            'name' => 'Open'
+        ]);
+
+        $issueType = factory(IssueType::class)->create([
+            'name' => 'Story'
+        ]);
+
+        $issue = factory(Issue::class)->create([
+            'user_id' => '1',
+            'title' => 'Test issue'
+        ]);
+
+        $this->browse(function ($browser) use ($user, $project) {
+
+            $browser->loginAs(User::find(1))
+                    ->visit('/issues/1')
+                    ->assertPathIs('/issues/1');
+        });
+    }
 }
