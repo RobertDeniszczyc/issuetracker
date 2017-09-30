@@ -13,7 +13,7 @@
                 <div class="panel-body">
                     @if($issues)
                         @foreach ($issues as $issue)
-                            <span>{{ $issue->getTitle() }}</span><br>
+                            <span><a href="{{ route('issues.show', $issue->getId()) }}">{{ $issue->getTitle() }}</a></span><br>
                             @if ($issue->getDescription())
                                 <span>{{ $issue->getDescription() }}</span><br>
                             @endif
