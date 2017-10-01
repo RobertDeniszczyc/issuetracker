@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Issue;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Factories\IssueFactory as IssueFactory;
@@ -89,7 +90,11 @@ class IssueController extends Controller
     public function show(Issue $issue)
     {
         $issue = Issue::where('id', $issue->getId())->first();
-        return view('issues.show', ['issue' => $issue]);
+        $comments = Comment::where('issue_id', $issue->getId())->get();
+
+        return view('issues.show', ['issue' => $issue,
+                                    'comments' => $comments
+                                   ]);
     }
 
     /**

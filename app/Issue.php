@@ -78,4 +78,12 @@ class Issue extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Get the comments associated with the issue
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
+    }
 }

@@ -22,3 +22,4 @@ Route::resource('projects', 'ProjectController');
 Route::resource('issue-status', 'IssueStatusController');
 Route::resource('issue-type', 'IssueTypeController');
 Route::resource('issues', 'IssueController');
+Route::resource('comments', 'CommentController');

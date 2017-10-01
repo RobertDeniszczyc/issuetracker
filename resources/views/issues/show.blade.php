@@ -28,6 +28,23 @@
                 </div>
 
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>Comments<h1>
+                </div>
+                <div class="panel-body">
+                    @if ($comments != null)
+                        @foreach ($comments as $comment)
+                            {{ $comment->user->getName() }} - Commented at {{ $comment->created_at->format('H:i d-m-Y')}} <br>
+                            {{ $comment->getContent() }}
+                        @endforeach
+                    @else
+                        There are no comments.
+                    @endif
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
