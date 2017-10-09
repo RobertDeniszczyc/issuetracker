@@ -28,6 +28,56 @@
                 </div>
 
             </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1>Comments<h1>
+                </div>
+                <div class="panel-body">
+                    @if (count($comments) > 0)
+                        @foreach ($comments as $comment)
+                            <div class="panel">
+                                {{ $comment->user->getName() }} - Commented at {{ $comment->created_at->format('H:i d-m-Y')}} <br>
+                                {{ $comment->getContent() }}
+                            </div>
+                        @endforeach
+                    @else
+                        <p>There are no comments on this issue.</p>
+                        <br>
+                    @endif
+
+
+                    <form class="form-horizontal" role="form" method="POST" action="{{ route('comments.store') }}">
+                        {{ csrf_field() }}
+
+                        <input id="user_id" type="hidden" name="user_id" value="{{ Auth::user()->id }}" required>
+                        <input id="issue_id" type="hidden" name="issue_id" value="{{ $issue->getId() }}" required>
+
+                        <div class="form-group{{ $errors->has('content') ? ' has-error' : '' }}">
+                            <label for="content" class="col-md-2 control-label">Comment</label>
+
+                            <div class="col-md-8">
+                                <input id="content" type="text" class="form-control" name="content" value="{{ old('content') }}" required autofocus>
+
+                                @if ($errors->has('content'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('content') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-8">
+                                <button type="submit" class="btn btn-primary">
+                                    Comment
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(IssueStatusTableSeeder::class);
         $this->call(IssueTypeTableSeeder::class);
         $this->call(ProjectTableSeeder::class);
+        $this->call(IssueTableSeeder::class);
+        $this->call(CommentTableSeeder::class);
     }
 }
