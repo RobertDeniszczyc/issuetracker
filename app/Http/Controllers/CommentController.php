@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Comment;
+use App\Issue;
 
 class CommentController extends Controller
 {
@@ -34,7 +36,17 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'user_id' => 'required',
+            'issue_id' => 'required',
+            'content' => 'required'
+        ]);
+
+        $issue = Issue::where('id', $request->issue_id)->first();
+
+        Comment::create($request->all());
+
+        return redirect()->action('IssueController@show', $issue);
     }
 
     /**
