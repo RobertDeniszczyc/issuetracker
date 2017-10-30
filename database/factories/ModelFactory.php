@@ -69,3 +69,13 @@ $factory->define(App\IssueType::class, function (Faker\Generator $faker) {
     ];
 });
 
+$factory->define(App\Comment::class, function (Faker\Generator $faker) {
+
+    return [
+        'user_id' => 1,
+        'issue_id' => 1,
+        'content' => $faker->sentence($nbWords = 6, $variableNbWords = true),
+        'created_at' => date("Y-m-d H:i:s"),
+        'updated_at' => date("Y-m-d H:i:s")
+    ];
+});
