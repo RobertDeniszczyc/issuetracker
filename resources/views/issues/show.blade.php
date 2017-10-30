@@ -36,9 +36,14 @@
                 <div class="panel-body">
                     @if (count($comments) > 0)
                         @foreach ($comments as $comment)
-                            <div class="panel">
+                            <div class="panel comment_panel" data-commentid="{{ $comment->getId() }}">
                                 {{ $comment->user->getName() }} - Commented at {{ $comment->created_at->format('H:i d-m-Y')}} <br>
-                                {{ $comment->getContent() }}
+                                <span class="comment-content">{{ $comment->getContent() }}</span>
+
+                                @if ($comment->getUserId() == Auth::user()->id)
+                                    <a class="btn btn-warning comment--edit">Edit comment</a>
+                                @endif
+
                             </div>
                         @endforeach
                     @else
@@ -47,7 +52,7 @@
                     @endif
 
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('comments.store') }}">
+                    <form class="form-horizontal" id="comment-add-form" role="form" method="POST" action="{{ route('comments.store') }}">
                         {{ csrf_field() }}
 
                         <input id="user_id" type="hidden" name="user_id" value="{{ Auth::user()->id }}" required>
@@ -71,6 +76,38 @@
                             <div class="col-md-2 col-md-offset-8">
                                 <button type="submit" class="btn btn-primary">
                                     Comment
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Edit comment form !-->
+                    <form class="form-horizontal form--edit" id="edit-comment-form" role="form" method="POST" action="{{ route('comments.update', "") }}">
+                        {{ csrf_field() }}
+                        {{ method_field('PATCH') }}
+
+                        <input id="user_id" type="hidden" name="user_id" value="{{ Auth::user()->id }}" required>
+                        <input id="issue_id" type="hidden" name="issue_id" value="{{ $issue->getId() }}" required>
+                        <input id="comment_id" type="hidden" name="comment_id" value="" required>
+
+                        <div class="form-group{{ $errors->has('edited-content') ? ' has-error' : '' }}">
+                            <label for="edited-content" class="col-md-2 control-label">Edit Comment</label>
+
+                            <div class="col-md-8">
+                                <input id="edited-content" type="text" class="form-control" name="edited_content" value="" required autofocus>
+
+                                @if ($errors->has('edited-content'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('edited-content') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-2 col-md-offset-8">
+                                <button type="submit" class="btn btn-primary" id="comment--submit-edit">
+                                    Submit
                                 </button>
                             </div>
                         </div>

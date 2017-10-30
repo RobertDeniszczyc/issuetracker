@@ -80,7 +80,24 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'user_id' => 'required',
+            'issue_id' => 'required',
+            'edited_content' => 'required'
+        ]);
+
+        $comment = Comment::where('id', $id)->first();
+        $issue = Issue::where('id', $request->issue_id)->first();
+
+        if ($request->user_id == $comment->getUserId()) {
+            $comment->setContent($request->edited_content);
+            $comment->save();
+
+            return redirect()->action('IssueController@show', $issue);
+        } else {
+            error_log("Error updating comment. Request user id does not match comment owner user id");
+            return redirect()->action('IssueController@show', $issue);
+        }
     }
 
     /**
