@@ -36,7 +36,7 @@ class ProjectFactory
             $collection = new Collection($projects);
 
             $current_page = LengthAwarePaginator::resolveCurrentPage();
-            $perPage = 2;
+            $perPage = 5;
             $currentPageSearchResults = $collection->slice(($current_page * $perPage) - $perPage, $perPage)->all();
             $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
 

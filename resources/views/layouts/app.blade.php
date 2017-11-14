@@ -28,7 +28,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ route('home') }}">
                         {{ config('app.name', 'Laravel') }}
                     </a>
                 </div>
@@ -75,6 +75,7 @@
     </div>
 
     <!-- Scripts -->
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

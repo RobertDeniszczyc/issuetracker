@@ -18,16 +18,14 @@
                                 <span>{{ $project->getDescription() }}</span><br>
                             @endif
                             <span>{{ $project->getShortcode() }}</span>
-                            <a class="btn btn-warning" href="{{ route('projects.edit', ['project_id' => $project->getId()]) }}">Edit Project</a>
 
                             @if ($project->getUserId() == Auth::user()->id)
+                                <a class="btn btn-warning" href="{{ route('projects.edit', ['project_id' => $project->getId()]) }}">Edit Project</a>
                                 <form action="{{ route('projects.destroy', ['project_id' => $project->getId()]) }}" method="POST">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
                                     <button class="btn btn-danger">Destroy Project</button>
                                 </form>
-                            @else
-                                <a class="btn btn-danger" disabled>Destroy Project</a>
                             @endif
                             <hr>
                         @endforeach

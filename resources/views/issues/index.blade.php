@@ -18,16 +18,14 @@
                                 <span>{{ $issue->getDescription() }}</span><br>
                             @endif
                             <span>Created by: {{ $issue->getUser()->getName() }}</span><br>
-                            <a class="btn btn-warning" href="{{ route('issues.edit', ['issue_id' => $issue->getId()]) }}">Edit Issue</a>
 
                             @if ($issue->getUserId() == Auth::user()->id)
+                                <a class="btn btn-warning" href="{{ route('issues.edit', ['issue_id' => $issue->getId()]) }}">Edit Issue</a>
                                 <form action="{{ route('issues.destroy', ['issue_id' => $issue->getId()]) }}" method="POST">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
                                     <button class="btn btn-danger">Destroy Issue</button>
                                 </form>
-                            @else
-                                <a class="btn btn-danger" disabled>Destroy Issue</a>
                             @endif
                             <hr>
                         @endforeach

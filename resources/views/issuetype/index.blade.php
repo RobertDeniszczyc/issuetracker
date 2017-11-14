@@ -13,8 +13,8 @@
                 <div class="panel-body">
                     @if($issueTypes)
                         @foreach ($issueTypes as $issueType)
-                            <span>{{ $issueType->getId() }}</span>
-                            <span>{{ $issueType->getName() }}</span>
+                            <span><strong>{{ $issueType->getName() }}</strong></span>
+                            
                             @if ($issueType->getUserId() == Auth::user()->id)
                                 <a class="btn btn-warning" href="{{ route('issue-type.edit', ['n' => $issueType->getId()]) }}">Edit Issue Type</a>
                                 <form action="{{ route('issue-type.destroy', ['project_id' => $issueType->getId()]) }}" method="POST">
