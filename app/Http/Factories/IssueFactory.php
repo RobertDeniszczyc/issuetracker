@@ -2,17 +2,17 @@
 
 namespace App\Http\Factories;
 
-use App\Project;
+use App\Issue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use App\Http\Helpers\ProjectHelper as ProjectHelper;
+use App\Http\Helpers\IssueHelper as IssueHelper;
 
-class ProjectFactory
+class IssueFactory
 {
     function __construct() {
-        $this->projectHelper = new ProjectHelper;
+        $this->issueHelper = new IssueHelper;
     }
 
     /**
@@ -20,23 +20,23 @@ class ProjectFactory
      *
      * @return \Illuminate\Http\Response
      */
-    public function generateProjectObject($projects)
+    public function generatePaginatedIssues($issues, $perPage = 5)
     {
-        $projectsArray = [];
+        $issuesArray = [];
 
-        if ($projects) {
-            foreach ($projects as $project) {
+        if ($issues) {
+            foreach ($issues as $issue) {
 
-                $projectObject = $this->projectHelper->setProjectMethods($project);
+                $issueObject = $this->issueHelper->setIssueMethods($issue);
                 
-                $projectsArray[] = $projectObject;
+                $issuesArray[] = $issueObject;
             }
 
-            $projects = (object) $projectsArray;
-            $collection = new Collection($projects);
+            $issues = (object) $issuesArray;
+            $collection = new Collection($issues);
 
             $current_page = LengthAwarePaginator::resolveCurrentPage();
-            $perPage = 5;
+            $perPage = $perPage;
             $currentPageSearchResults = $collection->slice(($current_page * $perPage) - $perPage, $perPage)->all();
             $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
 

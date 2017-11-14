@@ -12,10 +12,14 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->action('HomeController@index');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('projects', 'ProjectController');
+Route::resource('issue-status', 'IssueStatusController');
+Route::resource('issue-type', 'IssueTypeController');
+Route::resource('issues', 'IssueController');
+Route::resource('comments', 'CommentController');

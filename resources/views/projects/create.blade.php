@@ -16,7 +16,7 @@
                             <label for="name" class="col-md-4 control-label">Project Name</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="name" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
@@ -30,7 +30,7 @@
                             <label for="shortcode" class="col-md-4 control-label">Shortcode (Max 4 characters)</label>
 
                             <div class="col-md-6">
-                                <input id="shortcode" type="shortcode" class="form-control" name="shortcode" required>
+                                <input id="shortcode" type="text" class="form-control" name="shortcode" required>
 
                                 @if ($errors->has('shortcode'))
                                     <span class="help-block">
@@ -44,7 +44,7 @@
                             <label for="description" class="col-md-4 control-label">Description (optional)</label>
 
                             <div class="col-md-6">
-                                <input id="description" type="description" class="form-control" name="description">
+                                <input id="description" type="text" class="form-control" name="description">
 
                                 @if ($errors->has('description'))
                                     <span class="help-block">

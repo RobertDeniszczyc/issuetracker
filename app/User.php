@@ -27,11 +27,67 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function setEmail($email) {
+        $this->email = $email;
+    }
+
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
     /**
      * Get the projects associated with the user
      */
     public function projects()
     {
         return $this->hasMany('App\Project');
+    }
+
+    /**
+     * Get the issues associated with the user
+     */
+    public function issues()
+    {
+        return $this->hasMany('App\Issue');
+    }
+
+    /**
+     * Get the issue statuses associated with the user
+     */
+    public function issueStatuses()
+    {
+        return $this->hasMany('App\IssueStatus');
+    }
+
+    /**
+     * Get the issue types associated with the user
+     */
+    public function issueTypes()
+    {
+        return $this->hasMany('App\IssueType');
+    }
+
+    /**
+     * Get the comments associated with the user
+     */
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
     }
 }

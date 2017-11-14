@@ -1,22 +1,43 @@
+window.onload = function() {
+    var editComment = document.getElementsByClassName('comment--edit'),
+    editForm = document.getElementById('edit-comment-form'),
+    commentPanels = document.getElementsByClassName('comment_panel'),
+    newCommentForm = document.getElementById('comment-add-form'),
+    commentContent = null,
+    commentId = null;
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+    if (editForm) {
+        var editField = editForm.querySelector('#edited-content'),
+        editCommentSubmit = document.getElementById('comment--submit-edit');
+    }
 
-require('./bootstrap');
+    for (var i = 0; i < editComment.length; i++) {
+        editComment[i].addEventListener('click', function() {
 
-window.Vue = require('vue');
+            for (var i = commentPanels.length - 1; i >= 0; i--) {
+                commentPanels[i].classList.add('is-display-none');
+            }
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+            newCommentForm.classList.add('is-display-none');
 
-Vue.component('example', require('./components/Example.vue'));
+            editForm.classList.add('is-display-block');
+            commentId = this.parentNode.dataset.commentid;
+            commentContent = this.parentNode.getElementsByClassName('comment-content')[0].innerHTML;
 
-const app = new Vue({
-    el: '#app'
-});
+            editField.value = commentContent;
+            editForm.action = (editForm.action + '/' + commentId);
+            editForm.querySelector('#comment_id').value = commentId;
+        });
+    }
+
+    if (editCommentSubmit && editForm && commentPanels) {
+        editForm.classList.remove('is-display-block');
+        newCommentForm.classList.remove('is-display-none');
+        newCommentForm.classList.add('is-display-block');
+
+        for (var i = commentPanels.length - 1; i >= 0; i--) {
+            commentPanels[i].classList.remove('is-display-none');
+            commentPanels[i].classList.add('is-display-block');
+        }
+    }
+};

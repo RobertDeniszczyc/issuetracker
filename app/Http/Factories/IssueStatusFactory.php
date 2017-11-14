@@ -2,17 +2,17 @@
 
 namespace App\Http\Factories;
 
-use App\Project;
+use App\Issue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
-use App\Http\Helpers\ProjectHelper as ProjectHelper;
+use App\Http\Helpers\issueStatusHelper as issueStatusHelper;
 
-class ProjectFactory
+class IssueStatusFactory
 {
     function __construct() {
-        $this->projectHelper = new ProjectHelper;
+        $this->issueStatusHelper = new issueStatusHelper;
     }
 
     /**
@@ -20,23 +20,23 @@ class ProjectFactory
      *
      * @return \Illuminate\Http\Response
      */
-    public function generateProjectObject($projects)
+    public function generatePaginatedIssueStatuses($issueStatuses, $perPage = 5)
     {
-        $projectsArray = [];
+        $issueStatusArray = [];
 
-        if ($projects) {
-            foreach ($projects as $project) {
+        if ($issueStatuses) {
+            foreach ($issueStatuses as $issueStatus) {
 
-                $projectObject = $this->projectHelper->setProjectMethods($project);
+                $issueStatusObject = $this->issueStatusHelper->setIssueStatusMethods($issueStatus);
                 
-                $projectsArray[] = $projectObject;
+                $issueStatusArray[] = $issueStatusObject;
             }
 
-            $projects = (object) $projectsArray;
-            $collection = new Collection($projects);
+            $issueStatuses = (object) $issueStatusArray;
+            $collection = new Collection($issueStatuses);
 
             $current_page = LengthAwarePaginator::resolveCurrentPage();
-            $perPage = 5;
+            $perPage = $perPage;
             $currentPageSearchResults = $collection->slice(($current_page * $perPage) - $perPage, $perPage)->all();
             $paginatedSearchResults= new LengthAwarePaginator($currentPageSearchResults, count($collection), $perPage);
 

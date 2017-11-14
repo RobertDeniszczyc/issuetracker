@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class IssueType extends Model
+class Comment extends Model
 {
     protected $fillable = [
-        'user_id', 'name'
+        'user_id', 'issue_id', 'content'
     ];
 
     public function setId($id) {
@@ -18,8 +18,12 @@ class IssueType extends Model
         $this->user_id = $userId;
     }
 
-    public function setName($name) {
-        $this->name = $name;
+    public function setIssueId($issueId) {
+        $this->issue_id = $issue_id;
+    }
+
+    public function setContent($content) {
+        $this->content = $content;
     }
 
     public function getId() {
@@ -30,12 +34,21 @@ class IssueType extends Model
         return $this->user_id;
     }
 
-    public function getName() {
-        return $this->name;
+    public function getIssueId() {
+        return $this->issue_id;
+    }
+
+    public function getContent() {
+        return $this->content;
     }
 
     public function user()
     {
         return $this->belongsTo('App\User');
+    }
+
+    public function issue()
+    {
+        return $this->belongsTo('App\Issue');
     }
 }
